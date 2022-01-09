@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220109103545_Product.cs" />
+    <Compile Remove="Migrations\20220109103545_Product.Designer.cs" />
+    <Compile Remove="Migrations\20220109103820_Product.cs" />
+    <Compile Remove="Migrations\20220109103820_Product.Designer.cs" />
+    <Compile Remove="Migrations\20220109104041_Product.cs" />
+    <Compile Remove="Migrations\20220109104041_Product.Designer.cs" />
+    <Compile Remove="Migrations\20220109123001_Product.cs" />
+    <Compile Remove="Migrations\20220109123001_Product.Designer.cs" />
+    <Compile Remove="Migrations\20220109154400_Product.cs" />
+    <Compile Remove="Migrations\20220109154400_Product.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.20" />
   </ItemGroup>

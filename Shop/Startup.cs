@@ -31,9 +31,8 @@ namespace Shop
             services.AddDbContext<ShopDbContext>(options =>
             options.UseSqlServer(_configuration["DefaultConnection"]));
 
-
-
             services.AddScoped<IProductService, ProductServices>();
+            services.AddScoped<ICarService, CarServices>();
             services.AddScoped<IFileServices, FileServices>();
 
             services.AddControllersWithViews();

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Shop.Models.Car.CarListItem>
+
+@{
+    int queueNumber = 0;
+}
+
+<div class="h1">
+    Cars
+</div>
+
+<div class="">
+    <a asp-action="add" asp-controller="car" type="submit" class="btn btn-primary">Add</a>
+</div>
+<form method="post" class="m-1">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nr</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Model</th>
+                <th scope="col">Price €</th>
+                <th scope="col">Color</th>
+                <th scope="col">Transmission</th>
+                <th scope="col">Power kw</th>
+                <th scope="col">Year</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                queueNumber+= 1;
+
+            <tr>
+                <th scope="row">@queueNumber</th>
+                <td class="">@car.Brand</td>
+                <td class="">@car.ModelName</td>
+                <td class="">@car.Price</td>
+                <td class="">@car.Color</td>
+                <td class="">@car.Transmission</td>
+                <td class="">@car.Power</td>
+                <td class="">@car.Year</td>
+                <td class="">
+                    <a asp-action="edit" asp-controller="car" asp-route-id="@car.Id" class="btn btn-primary">Edit</a>
+                    <input asp-action="delete" asp-controller="car" asp-route-id="@car.Id" type="submit" class="btn btn-danger" value="Delete">
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+</form>

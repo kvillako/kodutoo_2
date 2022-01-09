@@ -64,6 +64,26 @@ namespace Shop.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Car",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Brand = table.Column<string>(nullable: true),
+                    ModelName = table.Column<string>(nullable: true),
+                    Price = table.Column<double>(nullable: true),
+                    Color = table.Column<string>(nullable: true),
+                    Transmission = table.Column<string>(nullable: true),
+                    Power = table.Column<int>(nullable: true),
+                    Year = table.Column<int>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ModifiedAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Car", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -228,6 +248,9 @@ namespace Shop.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Car");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

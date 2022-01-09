@@ -246,6 +246,44 @@ namespace Shop.Data.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("Shop.Core.Domain.Car", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
+
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("datetime2");
+
+                b.Property<DateTime>("ModifiedAt")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Brand")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("ModelName")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Transmission")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Color")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<double>("Price")
+                    .HasColumnType("float");
+
+                b.Property<double>("Year")
+                    .HasColumnType("int");
+
+                b.Property<double>("Power")
+                    .HasColumnType("int");
+
+                b.HasKey("Id");
+
+                b.ToTable("Car");
+            });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
