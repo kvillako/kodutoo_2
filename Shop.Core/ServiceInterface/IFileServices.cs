@@ -12,6 +12,7 @@ namespace Shop.Core.ServiceInterface
         string ProcessUploadFile(ProductDto dto, Product product);
 
         string ProcessUploadFile(CarDto dto, Car car);
+        string ProcessUploadFile(SpaceShipDto dto, SpaceShip spaceShip);
 
         Task<ExistingFilePath> RemoveImage(ExistingFilePathDto dto);
         Task<List<ExistingFilePath>> RemoveImages(ExistingFilePathDto[] dto);

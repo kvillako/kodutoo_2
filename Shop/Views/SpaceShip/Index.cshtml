@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Shop.Models.SpaceShip.SpaceShipListItem>
+
+@{
+    int queueNumber = 0;
+}
+
+<div class="h1">
+    SpaceShips
+</div>
+
+<div class="">
+    <a asp-action="add" asp-controller="spaceShip" type="submit" class="btn btn-primary">Add</a>
+</div>
+<form method="post" class="m-1">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nr</th>
+                <th scope="col">Name</th>
+                <th scope="col">Model</th>
+                <th scope="col">Company</th>
+                <th scope="col">EnginePower</th>
+                <th scope="col">Country</th>
+                <th scope="col">LaunchDate</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var spaceShip in Model)
+            {
+                queueNumber+= 1;
+
+            <tr>
+                <th scope="row">@queueNumber</th>
+                <td class="">@spaceShip.Name</td>
+                <td class="">@spaceShip.ModelName</td>
+                <td class="">@spaceShip.Company</td>
+                <td class="">@spaceShip.EnginePower</td>
+                <td class="">@spaceShip.Country</td>
+                <td class="">@spaceShip.LaunchDate</td>
+                <td class="">
+                    <a asp-action="edit" asp-controller="spaceShip" asp-route-id="@spaceShip.Id" class="btn btn-primary">Edit</a>
+                    <input asp-action="delete" asp-controller="spaceShip" asp-route-id="@spaceShip.Id" type="submit" class="btn btn-danger" value="Delete">
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+</form>

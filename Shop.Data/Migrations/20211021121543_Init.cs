@@ -64,6 +64,25 @@ namespace Shop.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SpaceShip",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    ModelName = table.Column<string>(nullable: true),
+                    Company = table.Column<string>(nullable: true),
+                    EnginePower = table.Column<int>(nullable: false),
+                    Country = table.Column<string>(nullable: true),
+                    LaunchDate = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ModifiedAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpaceShip", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Car",
                 columns: table => new
                 {
@@ -189,6 +208,40 @@ namespace Shop.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ExistingFilePath",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    FilePath = table.Column<string>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: true),
+                    SpaceShipId = table.Column<Guid>(nullable: true),
+                    CarId = table.Column<Guid>(nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExistingFilePath", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExistingFilePath_SpaceShip_SpaceShipId",
+                        column: x => x.SpaceShipId,
+                        principalTable: "SpaceShip",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExistingFilePath_Car_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Car",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExistingFilePath_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -250,7 +303,13 @@ namespace Shop.Data.Migrations
                 name: "Product");
 
             migrationBuilder.DropTable(
+                name: "SpaceShip");
+
+            migrationBuilder.DropTable(
                 name: "Car");
+
+            migrationBuilder.DropTable(
+                name: "ExistingFilePath");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
