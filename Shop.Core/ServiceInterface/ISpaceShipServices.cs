@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Core.ServiceInterface
 {
-    public interface ISpaceShipService : IApplicationService
+    public interface ISpaceShipService
     {
         Task<SpaceShip> Add(SpaceShipDto dto);
 
@@ -16,6 +16,8 @@ namespace Shop.Core.ServiceInterface
         Task<SpaceShip> Update(SpaceShipDto dto);
 
         Task<SpaceShip> GetAsync(Guid id);
+
+        Task<FileToDatabase> RemoveImage(FileToDatabaseDto dto);
 
         //Task<ExistingFilePath> RemoveImage(ExistingFilePathDto dto);
     }

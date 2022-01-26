@@ -14,24 +14,19 @@ namespace Shop.ApplicationServices.Services
     public class SpaceShipServices : ISpaceShipService
     {
         private readonly ShopDbContext _context;
-        private readonly IWebHostEnvironment _env;
-        private readonly IFileServices _fileServices;
 
         public SpaceShipServices
             (
-            ShopDbContext context,
-            IWebHostEnvironment env,
-            IFileServices fileServices
+            ShopDbContext context
             )
         {
             _context = context;
-            _env = env;
-            _fileServices = fileServices;
         }
 
         public async Task<SpaceShip> Add(SpaceShipDto dto)
         {
             SpaceShip spaceShip = new SpaceShip();
+            FileToDatabase file = new FileToDatabase();
 
             spaceShip.Id = Guid.NewGuid();
             spaceShip.Name = dto.Name;
@@ -40,10 +35,13 @@ namespace Shop.ApplicationServices.Services
             spaceShip.EnginePower = dto.EnginePower;
             spaceShip.Country = dto.Country;
             spaceShip.LaunchDate = dto.LaunchDate;
-
             spaceShip.CreatedAt = DateTime.Now;
             spaceShip.ModifiedAt = DateTime.Now;
-            _fileServices.ProcessUploadFile(dto, spaceShip);
+
+            if (dto.Files != null)
+            {
+                file.ImageData = UploadFile(dto, spaceShip);
+            }
 
             await _context.SpaceShip.AddAsync(spaceShip);
             await _context.SaveChangesAsync();
@@ -55,21 +53,8 @@ namespace Shop.ApplicationServices.Services
         public async Task<SpaceShip> Delete(Guid id)
         {
             var spaceShipId = await _context.SpaceShip
-                .Include(x => x.ExistingFilePaths)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            var photos = await _context.ExistingFilePath
-                .Where(x => x.SpaceShipId == id)
-                .Select(y => new ExistingFilePathDto
-                {
-                    SpaceShipId = y.SpaceShipId,
-                    ExistingFilePath = y.FilePath,
-                    Id = y.Id
-                })
-                .ToArrayAsync();
-
-
-            await _fileServices.RemoveImages(photos);
             _context.SpaceShip.Remove(spaceShipId);
             await _context.SaveChangesAsync();
 
@@ -80,6 +65,7 @@ namespace Shop.ApplicationServices.Services
         public async Task<SpaceShip> Update(SpaceShipDto dto)
         {
             SpaceShip spaceShip = new SpaceShip();
+            FileToDatabase file = new FileToDatabase();
 
             spaceShip.Id = dto.Id;
             spaceShip.Name = dto.Name;
@@ -88,10 +74,14 @@ namespace Shop.ApplicationServices.Services
             spaceShip.EnginePower = dto.EnginePower;
             spaceShip.Country = dto.Country;
             spaceShip.LaunchDate = dto.LaunchDate;
-
             spaceShip.CreatedAt = dto.CreatedAt;
             spaceShip.ModifiedAt = DateTime.Now;
-            _fileServices.ProcessUploadFile(dto, spaceShip);
+
+            if (dto.Files != null)
+            {
+                file.ImageData = UploadFile(dto, spaceShip);
+            }
+
 
             _context.SpaceShip.Update(spaceShip);
             await _context.SaveChangesAsync();
@@ -104,6 +94,45 @@ namespace Shop.ApplicationServices.Services
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return result;
+        }
+
+        public byte[] UploadFile(SpaceShipDto dto, SpaceShip spaceship)
+        {
+
+            if (dto.Files != null && dto.Files.Count > 0) 
+            {
+                foreach (var photo in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase objFiles = new FileToDatabase
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = photo.FileName,
+                            SpaceshipId = spaceship.Id,
+                        };
+
+                        photo.CopyTo(target);
+                        objFiles.ImageData = target.ToArray();
+
+                        _context.FileToDatabase.Add(objFiles);
+                    }
+                }
+            }
+
+            return null;
+
+        }
+
+        public async Task<FileToDatabase> RemoveImage(FileToDatabaseDto dto)
+        {
+            var image = await _context.FileToDatabase
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
+
+            _context.FileToDatabase.Remove(image);
+            await _context.SaveChangesAsync();
+
+            return image;
         }
 
     }

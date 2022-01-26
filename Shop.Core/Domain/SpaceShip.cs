@@ -17,7 +17,5 @@ namespace Shop.Core.Domain
         public DateTime LaunchDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
-        public IEnumerable<ExistingFilePath> ExistingFilePaths { get; set; }
-    = new List<ExistingFilePath>();
     }
 }

@@ -67,7 +67,7 @@ else
             </div>
         </div>
 
-        @foreach (var photo in Model.ExistingFilePaths)
+        @foreach (var photo in Model.Image)
         {
             <partial name="_Photo" model="photo" />
         }

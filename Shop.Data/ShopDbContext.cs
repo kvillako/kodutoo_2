@@ -16,6 +16,9 @@ namespace Shop.Data
         public DbSet<SpaceShip> SpaceShip { get; set; }
 
         public DbSet<ExistingFilePath> ExistingFilePath { get; set; }
+
+        public DbSet<FileToDatabase> FileToDatabase { get; set; }
+
         //kuidas yhendada aplikatsioon DB-ga
     }
 }

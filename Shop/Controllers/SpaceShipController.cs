@@ -15,18 +15,15 @@ namespace Shop.Controllers
     {
         private readonly ShopDbContext _context;
         private readonly ISpaceShipService _spaceShipService;
-        private readonly IFileServices _fileServices;
 
         public SpaceShipController
             (
             ShopDbContext context,
-            ISpaceShipService spaceShipService,
-            IFileServices fileServices
+            ISpaceShipService spaceShipService
             )
         {
             _context = context;
             _spaceShipService = spaceShipService;
-            _fileServices = fileServices;
         }
 
         //ListItem
@@ -44,6 +41,8 @@ namespace Shop.Controllers
                     EnginePower = x.EnginePower,
                     Country = x.Country,
                     LaunchDate = x.LaunchDate,
+                    CreatedAt = x.CreatedAt,
+                    ModifiedAt = x.ModifiedAt
                 });
 
             return View(result);
@@ -69,15 +68,16 @@ namespace Shop.Controllers
                 EnginePower = model.EnginePower,
                 Country = model.Country,
                 LaunchDate = model.LaunchDate,
-
                 CreatedAt = model.CreatedAt,
                 ModifiedAt = model.ModifiedAt,
-                Files = model.Files,
-                ExistingFilePaths = model.ExistingFilePaths.Select(x => new ExistingFilePathDto
+
+                Image = model.Image.Select(x => new FileToDatabaseDto 
                 {
-                    Id = x.PhotoId,
-                    ExistingFilePath = x.FilePath,
-                    SpaceShipId = x.SpaceShipId
+                    Id = x.Id,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    SpaceshipId = x.SpaceshipId,
+
                 }).ToArray()
             };
 
@@ -88,14 +88,14 @@ namespace Shop.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction(nameof(Index), model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var car = await _spaceShipService.Delete(id);
-            if (car == null)
+            var spaceShip = await _spaceShipService.Delete(id);
+            if (spaceShip == null)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -114,14 +114,16 @@ namespace Shop.Controllers
                 return NotFound();
             }
 
-            var photos = await _context.ExistingFilePath
-                .Where(x => x.SpaceShipId == id)
-                .Select(y => new ExistingFilePathViewModel
+            var photos = await _context.FileToDatabase
+                .Where(x => x.SpaceshipId == id)
+                .Select(y => new ImageViewModel
                 {
-                    FilePath = y.FilePath,
-                    PhotoId = y.Id
-                })
-                .ToArrayAsync();
+                    ImageData = y.ImageData,
+                    Id = y.Id,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData)),
+                    ImageTitle = y.ImageTitle,
+                    SpaceshipId = y.Id
+                }).ToArrayAsync();
 
             var model = new SpaceShipViewModel();
 
@@ -134,7 +136,7 @@ namespace Shop.Controllers
             model.LaunchDate = spaceShip.LaunchDate;
             model.ModifiedAt = spaceShip.ModifiedAt;
             model.CreatedAt = spaceShip.CreatedAt;
-            model.ExistingFilePaths.AddRange(photos);
+            model.Image.AddRange(photos);
 
             return View(model);
         }
@@ -155,13 +157,14 @@ namespace Shop.Controllers
                 CreatedAt = model.CreatedAt,
                 ModifiedAt = model.ModifiedAt,
                 Files = model.Files,
-                ExistingFilePaths = model.ExistingFilePaths
-                    .Select(x => new ExistingFilePathDto
-                    {
-                        Id = x.PhotoId,
-                        ExistingFilePath = x.FilePath,
-                        SpaceShipId = x.SpaceShipId
-                    }).ToArray()
+                Image = model.Image.Select(x => new FileToDatabaseDto
+                { 
+                    Id = x.Id,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    SpaceshipId = x.SpaceshipId
+
+                })
             };
 
             var result = await _spaceShipService.Update(dto);
@@ -176,15 +179,15 @@ namespace Shop.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> RemoveImage(ExistingFilePathViewModel model)
+        public async Task<IActionResult> RemoveImage(ImageViewModel file)
         {
-            var dto = new ExistingFilePathDto()
+            var dto = new FileToDatabaseDto()
             {
-                Id = model.PhotoId
+                Id = file.Id
             };
 
-            var photo = await _fileServices.RemoveImage(dto);
-            if (photo == null)
+            var image = await _spaceShipService.RemoveImage(dto);
+            if (image == null)
             {
                 return RedirectToAction(nameof(Index));
             }

@@ -31,6 +31,16 @@
     <Compile Remove="Migrations\20220119202629_Product.Designer.cs" />
     <Compile Remove="Migrations\20220119203408_Product.cs" />
     <Compile Remove="Migrations\20220119203408_Product.Designer.cs" />
+    <Compile Remove="Migrations\20220120101410_Product.cs" />
+    <Compile Remove="Migrations\20220120101410_Product.Designer.cs" />
+    <Compile Remove="Migrations\20220120132755_SpaceShipFileToDatabase.cs" />
+    <Compile Remove="Migrations\20220120132755_SpaceShipFileToDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220125191004_SpaceShip.cs" />
+    <Compile Remove="Migrations\20220125191004_SpaceShip.Designer.cs" />
+    <Compile Remove="Migrations\20220125191216_SpaceshipFileToDatabase.cs" />
+    <Compile Remove="Migrations\20220125191216_SpaceshipFileToDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20220125192149_Spaceship.cs" />
+    <Compile Remove="Migrations\20220125192149_Spaceship.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
