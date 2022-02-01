@@ -126,13 +126,14 @@ namespace Shop.ApplicationServices.Services
 
         public async Task<FileToDatabase> RemoveImage(FileToDatabaseDto dto)
         {
-            var image = await _context.FileToDatabase
-                .FirstOrDefaultAsync(x => x.Id == dto.Id);
+            var ImageId = await _context.FileToDatabase
+                .Where(x => x.Id == dto.Id)
+                .FirstOrDefaultAsync();
 
-            _context.FileToDatabase.Remove(image);
+            _context.FileToDatabase.Remove(ImageId);
             await _context.SaveChangesAsync();
 
-            return image;
+            return ImageId;
         }
 
     }

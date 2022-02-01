@@ -1,6 +1,10 @@
 ﻿@model Shop.Models.SpaceShip.ImageViewModel
 
+@{
+    var photoPaths = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(@Model.ImageData));
+}
+
 <div class="form-group row col-sm-4 offset-2">
-    <img class="card-img-top" src="@Model.Image" asp-append-version="true" />
-    <input asp-action="removeImage" asp-controller="spaceShip" asp-route-Id="@Model.Id" type="submit" class="btn btn-danger" value="Remove Image" />
+    <img class="card-img-top" src="@photoPaths" asp-append-version="true" />
+    <input asp-action="removeImage" asp-controller="spaceShip" asp-route-imageId="@Model.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
 </div>

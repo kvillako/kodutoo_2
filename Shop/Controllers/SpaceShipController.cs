@@ -70,10 +70,11 @@ namespace Shop.Controllers
                 LaunchDate = model.LaunchDate,
                 CreatedAt = model.CreatedAt,
                 ModifiedAt = model.ModifiedAt,
+                Files = model.Files,
 
                 Image = model.Image.Select(x => new FileToDatabaseDto 
                 {
-                    Id = x.Id,
+                    Id = x.ImageId,
                     ImageData = x.ImageData,
                     ImageTitle = x.ImageTitle,
                     SpaceshipId = x.SpaceshipId,
@@ -119,7 +120,7 @@ namespace Shop.Controllers
                 .Select(y => new ImageViewModel
                 {
                     ImageData = y.ImageData,
-                    Id = y.Id,
+                    ImageId = y.Id,
                     Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData)),
                     ImageTitle = y.ImageTitle,
                     SpaceshipId = y.Id
@@ -159,7 +160,7 @@ namespace Shop.Controllers
                 Files = model.Files,
                 Image = model.Image.Select(x => new FileToDatabaseDto
                 { 
-                    Id = x.Id,
+                    Id = x.ImageId,
                     ImageData = x.ImageData,
                     ImageTitle = x.ImageTitle,
                     SpaceshipId = x.SpaceshipId
@@ -183,7 +184,7 @@ namespace Shop.Controllers
         {
             var dto = new FileToDatabaseDto()
             {
-                Id = file.Id
+                Id = file.ImageId
             };
 
             var image = await _spaceShipService.RemoveImage(dto);
