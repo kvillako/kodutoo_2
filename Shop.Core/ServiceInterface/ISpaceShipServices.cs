@@ -1,4 +1,5 @@
 ﻿using Shop.Core.Domain;
+using Shop.Core.Dto;
 using Shop.Core.Dtos;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Core.ServiceInterface
 {
-    public interface ISpaceShipService
+    public interface ISpaceShipService : IApplicationService //mul seda viimast polnud.
     {
         Task<SpaceShip> Add(SpaceShipDto dto);
 

@@ -8,6 +8,7 @@ using Shop.Core.ServiceInterface;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Linq;
+using Shop.Core.Dto;
 
 namespace Shop.ApplicationServices.Services
 {

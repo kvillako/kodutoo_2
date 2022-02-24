@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Shop.Core.Domain;
+using Shop.Core.Dto;
 using Shop.Core.Dtos;
 using Shop.Core.ServiceInterface;
 using Shop.Data;

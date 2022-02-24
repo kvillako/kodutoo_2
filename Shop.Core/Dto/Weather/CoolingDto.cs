@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Newtonsoft.Json;
+
+namespace Shop.Core.Dto.Weather
+{
+    public class CoolingDto
+    {
+        [JsonProperty("")]
+        public double Value { get; set; }
+        [JsonProperty("")]
+        public string Unit { get; set; }
+        [JsonProperty("")]
+        public int UnitType { get; set; }
+    }
+}
